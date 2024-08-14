@@ -1,0 +1,29 @@
+  - platform: template
+    lights:
+      master_bedroom_main_lights_t:
+        unique_id: "master_bedroom_main_lights_template" 
+        friendly_name: "Master Bedroom Main Lights"
+        value_template: "{{ is_state('light.master_bedroom_main_lights', 'on') }}"
+        level_template: "{{ state_attr('light.master_bedroom_main_lights', 'brightness') | int if is_state('light.master_bedroom_main_lights', 'on') else states('input_number.master_bedroom_main_lights_brightness') | int }}"
+        turn_on:
+          service: light.turn_on
+          data:
+            entity_id: light.master_bedroom_main_lights
+            brightness: "{{ states('input_number.master_bedroom_main_lights_brightness') | int }}"
+        turn_off:
+          - service: input_number.set_value
+            data:
+              entity_id: input_number.master_bedroom_main_lights_brightness
+              value: "{{ state_attr('light.master_bedroom_main_lights', 'brightness') | int }}"
+          - service: light.turn_off
+            entity_id: light.master_bedroom_main_lights
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: light.master_bedroom_main_lights
+              brightness: "{{ brightness }}"
+          - delay: '00:00:01'
+          - service: input_number.set_value
+            data:
+              entity_id: input_number.master_bedroom_main_lights_brightness
+              value: "{{ brightness }}"

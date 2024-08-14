@@ -1,0 +1,755 @@
+button_card_templates: !include button_card_templates.yaml
+
+title: Floorplan 2
+views:
+  #############################################################################################################################################
+  #                                                                                                                                           #
+  #                                                              Floorplan View                                                               #
+  #                                                                                                                                           #
+  #############################################################################################################################################
+
+  - title: Floors
+    icon: "mdi:floor-plan"
+    panel: true
+    badges: []
+    cards:
+      - type: picture-elements
+        image: /local/ui/floorplan/floorplan_night.png
+        card_mod:
+          style: |
+            ha-card:first-child {
+              background: rgba(42, 46, 48, 1)
+            }
+        elements:
+
+          #########################    INDIVIDUAL LIGHTS - BLENDED IMAGE OVERLAYS    #########################
+          ################ Second Floor ##################
+
+          - type: image
+            action: none
+            entity: light.upstairs_bathroom_vanity_lights_light
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/upstairs_bathroom_vanity_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 84.0%
+              top: 50.3%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.upstairs_bathroom_shower_lights_light
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/upstairs_bathroom_shower_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 84.0%
+              top: 50.3%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.upstairs_mb_bathroom_light
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/bedroom1_bathroom_light.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 84.0%
+              top: 50.3%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.upstairs_main_lights
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/upstairs_main_roof_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 84.0%
+              top: 50.3%
+              width: 100%
+            tap_action:
+              action: none
+
+            ################ Outdoor ##################
+          - type: image
+            action: none
+            entity: light.frontyard_garage_light
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/frontyard_garage_light.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.main_entrance_porch_light
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/entrance_porch_light.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.back_yard_string_lights_1
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/backyard_string_lights1.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+
+            ################ First Floor ##################
+          - type: image
+            action: none
+            entity: light.chandelier
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/chandelier_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.dining_room_main_lights
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/dining_room_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.family_room_main_lights
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/family_room_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.living_room_main_lights_front
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/living_room_front_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.living_room_main_lights_rear
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/living_room_rear_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+            entity: light.master_bedroom_main_lights
+            hold_action:
+              action: none
+            state_image:
+              "on": /local/ui/floorplan/lights/master_bedroom_lights.png
+              "off": /local/ui/floorplan/transparent.png
+            style:
+              left: 44.73%
+              top: 50.1%
+              width: 100%
+            tap_action:
+              action: none
+          - type: image
+            action: none
+
+        #########################    ROOM/GROUP CONTROL TRANSPARENT IMAGES    #########################
+
+        #  Used to create tap areas and popups for each room, referring to light groups.
+        #  Because the above images overlap each other, I used seperate transparent images
+        #. to handle the control of the room, so you always tap the right room.
+        #
+        #  browser_mod.popup is used for a tap and hold for a custom popup card
+
+          - entity: light.master_bedroom_main_lights
+            double_tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Master Bedroom Lights
+                content:
+                  type: 'custom:vertical-stack-in-card'
+                  cards:
+                    - type: entities
+                      entities:
+                      - entity: light.master_bedroom_main_lights
+                        secondary_info: last-changed
+                      style:
+                        z-index: 5
+                    - type: 'custom:layout-card'
+                      cards:
+                      - type: 'custom:layout-card'
+                        cards: null
+                        column_height: 1
+                        layout: vertical
+                      - type: entities
+                        entities:
+                        - type: 'custom:light-slider-card'
+                          color_temp: true
+                          entity: light.master_bedroom_main_lights
+                          hide_header: true
+                          persist_features: true
+                        show_header_toggle: false
+                        card-mod:
+                          style: |
+                            :host{
+                              height: 100%;
+                              z-index: 0;
+                            }
+                            ha-card {
+                              box-shadow: none !important;
+                            }
+                      column_num: 1
+                      layout: horizontal
+                      max_width:
+                        - 100%
+                deviceID:
+                  - this
+                style:
+                  '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                  border-radius: 0.8vw
+                  opacity: 0.9
+            image: /local/ui/floorplan/transparent.png
+            style:
+              height: 21%
+              left: 38.3%
+              top: 22.65%
+              width: 13%
+            tap_action:
+              action: call-service
+              service: homeassistant.toggle
+              service_data:
+                entity_id: light.master_bedroom_main_lights
+            type: image
+
+          - entity: light.family_room_main_lights
+            double_tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                card:
+                  cards:
+                    - entities:
+                        - entity: light.family_room_main_lights
+                          secondary_info: last-changed
+                      style:
+                        z-index: 5
+                      type: entities
+                    - cards:
+                        - cards: null
+                          column_height: 1
+                          layout: vertical
+                          type: 'custom:layout-card'
+                        - entities:
+                            - color_temp: true
+                              entity: light.family_room_main_lights
+                              hide_header: true
+                              persist_features: true
+                              type: 'custom:light-slider-card'
+                          show_header_toggle: false
+                          card-mod:
+                            style: |
+                              :host{
+                                height: 100%;
+                                z-index: 0;
+                              }
+                              ha-card {
+                                box-shadow: none !important;
+                              }
+                          type: entities
+                      column_num: 1
+                      layout: horizontal
+                      max_width:
+                        - 100%
+                      type: 'custom:layout-card'
+                  type: 'custom:vertical-stack-in-card'
+                deviceID:
+                  - this
+                card-mod:
+                  style:
+                    '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                title: Family Room Lights
+            image: /local/ui/floorplan/transparent.png
+            style:
+              height: 21.5%
+              left: 43.3%
+              top: 45%
+              width: 13%
+            tap_action:
+              action: call-service
+              service: homeassistant.toggle
+              service_data:
+                entity_id: light.family_room_main_lights
+            type: image
+
+          - entity: light.living_room_main_lights_rear
+            double_tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                card:
+                  cards:
+                    - entities:
+                        - entity: light.living_room_main_lights_rear
+                          secondary_info: last-changed
+                      style:
+                        z-index: 5
+                      type: entities
+                    - cards:
+                        - cards: null
+                          column_height: 1
+                          layout: vertical
+                          type: 'custom:layout-card'
+                        - entities:
+                            - color_temp: true
+                              entity: light.living_room_main_lights_rear
+                              hide_header: true
+                              persist_features: true
+                              type: 'custom:light-slider-card'
+                          show_header_toggle: false
+                          card-mod:
+                            style: |
+                              :host{
+                                height: 10%;
+                                z-index: 0;
+                              }
+                              ha-card {
+                                box-shadow: none !important;
+                              }
+                          type: entities
+                      column_num: 1
+                      layout: horizontal
+                      max_width:
+                        - 100%
+                      type: 'custom:layout-card'
+                  type: 'custom:vertical-stack-in-card'
+                deviceID:
+                  - this
+                card-mod:
+                  style:
+                    '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                title: Family Room Lights
+            image: /local/ui/floorplan/transparent.png
+            style:
+              height: 13.5%
+              left: 32.0%
+              top: 70%
+              width: 14%
+            tap_action:
+              action: call-service
+              service: homeassistant.toggle
+              service_data:
+                entity_id: light.living_room_main_lights_rear
+            type: image
+
+          - entity: light.living_room_main_lights_front
+            double_tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                card:
+                  cards:
+                    - entities:
+                        - entity: light.living_room_main_lights_front
+                          secondary_info: last-changed
+                      style:
+                        z-index: 5
+                      type: entities
+                    - cards:
+                        - cards: null
+                          column_height: 1
+                          layout: vertical
+                          type: 'custom:layout-card'
+                        - entities:
+                            - color_temp: true
+                              entity: light.living_room_main_lights_front
+                              hide_header: true
+                              persist_features: true
+                              type: 'custom:light-slider-card'
+                          show_header_toggle: false
+                          card-mod:
+                            style: |
+                              :host{
+                                height: 10%;
+                                z-index: 0;
+                              }
+                              ha-card {
+                                box-shadow: none !important;
+                              }
+                          type: entities
+                      column_num: 1
+                      layout: horizontal
+                      max_width:
+                        - 100%
+                      type: 'custom:layout-card'
+                  type: 'custom:vertical-stack-in-card'
+                deviceID:
+                  - this
+                style:
+                  '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                  border-radius: 0.8vw
+                  opacity: 0.9
+                title: Family Room Lights
+            image: /local/ui/floorplan/transparent.png
+            style:
+              height: 13.5%
+              left: 32.0%
+              top: 85%
+              width: 14%
+            tap_action:
+              action: call-service
+              service: homeassistant.toggle
+              service_data:
+                entity_id: light.living_room_main_lights_front
+            type: image
+
+          - entity: light.dining_room_main_lights
+            double_tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                card:
+                  cards:
+                    - entities:
+                        - entity: light.dining_room_main_lights
+                          secondary_info: last-changed
+                      style:
+                        z-index: 5
+                      type: entities
+                    - cards:
+                        - cards: null
+                          column_height: 1
+                          layout: vertical
+                          type: 'custom:layout-card'
+                        - entities:
+                            - color_temp: true
+                              entity: light.dining_room_main_lights
+                              hide_header: true
+                              persist_features: true
+                              type: 'custom:light-slider-card'
+                          show_header_toggle: false
+                          card-mod:
+                            style: |
+                              :host{
+                                height: 10%;
+                                z-index: 0;
+                              }
+                              ha-card {
+                                box-shadow: none !important;
+                              }
+                          type: entities
+                      column_num: 1
+                      layout: horizontal
+                      max_width:
+                        - 100%
+                      type: 'custom:layout-card'
+                  type: 'custom:vertical-stack-in-card'
+                deviceID:
+                  - this
+                style:
+                  '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                  border-radius: 0.8vw
+                  opacity: 0.9
+                title: Family Room Lights
+            image: /local/ui/floorplan/transparent.png
+            style:
+              height: 13.5%
+              left: 45%
+              top: 86%
+              width: 11%
+            tap_action:
+              action: call-service
+              service: homeassistant.toggle
+              service_data:
+                entity_id: light.dining_room_main_lights
+            type: image
+
+            #########################    INDIVIDUAL LIGHT ICONS    #########################
+
+            #  These are the white state icons that appear over the floorplan.
+            #  They are the same as above, but instead of "areas" to control a group, they only
+            #. control individual lights
+            #
+            #  browser_mod.popup is used for a tap and hold for a custom popup card, custom styling
+            #  of the icon to make it appear white, etc.
+                  
+            # First Floor 
+            
+          - entity: light.master_bedroom_main_lights
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 39%
+              top: 22.5%
+            template:
+              - light
+          - entity: light.chandelier
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.30) scaleY(0.30)"
+            style:
+              left: 43.25%
+              top: 71.5%
+            template:
+              - light
+          - entity: light.dining_room_main_lights
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 45.0%
+              top: 84.5%
+            template:
+              - light
+          - entity: light.family_room_main_lights
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 43.25%
+              top: 44.5%
+            template:
+              - light
+          - entity: light.living_room_main_lights_front
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 32.5%
+              top: 84%
+            template:
+              - light
+          - entity: light.living_room_main_lights_rear
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 32.5%
+              top: 67%
+            template:
+              - light
+
+          # Second Floor
+
+          - entity: light.upstairs_mb_bathroom_light
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 75%
+              top: 13%
+            template:
+              - light
+          - entity: light.upstairs_bathroom_vanity_lights_light
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 75.9%
+              top: 49%
+            template:
+              - light
+          - entity: light.upstairs_bathroom_shower_lights_light
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 75.9%
+              top: 59%
+            template:
+              - light
+          - entity: light.upstairs_main_lights
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 87.5%
+              top: 53%
+            template:
+              - light
+
+          # Outdoor
+          - entity: light.back_yard_string_lights_1
+            type: "custom:button-card"
+            styles:
+              card:
+                - transform: "scaleX(0.35) scaleY(0.35)"
+            style:
+              left: 28.5%
+              top: 38%
+            template:
+              - light
+
+          #########################    Motion Sensor Info    #########################
+
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.upstairs_master_bathroom_motion_sensor_occupancy_2
+                state: "on"
+            elements:
+              - type: state-icon
+                entity: binary_sensor.upstairs_master_bathroom_motion_sensor_occupancy_2
+                icon: mdi:run-fast
+                style:
+                  left: 72.5%
+                  top: 12.25%
+                  scale: 75%
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
+                state: "on"
+            elements:
+              - type: state-icon
+                entity: binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
+                icon: mdi:run-fast
+                style:
+                  left: 93.5%
+                  top: 60.5%
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.upstairs_bathroom_vanity_motion_sensor_occupancy_2
+                state: "on"
+            elements:
+              - type: state-icon
+                entity: binary_sensor.upstairs_bathroom_vanity_motion_sensor_occupancy_2
+                icon: mdi:run-fast
+                style:
+                  left: 77.9%
+                  top: 50.5%
+                  scale: 75%
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.upstairs_bathroom_shower_motion_sensor_occupancy_2
+                state: "on"
+            elements:
+              - type: state-icon
+                entity: binary_sensor.upstairs_bathroom_shower_motion_sensor_occupancy_2
+                icon: mdi:run-fast
+                style:
+                  left: 75.6%
+                  top: 62.0%
+                  scale: 75%
+
+          #########################    TIME AND DATE    #########################
+
+          - entity: sensor.time
+            hold_action:
+              action: none
+            style:
+              color: "rgba(255, 255, 255, 0.7)"
+              font-size: 5.41vw
+              font-weight: 200
+              left: 1.7%
+              letter-spacing: "-0.05vw"
+              max-width: 1px
+              top: 10%
+            tap_action:
+              action: none
+            type: state-label
+          - entity: sensor.date_string
+            hold_action:
+              action: none
+            style:
+              color: "rgba(255, 255, 255, 0.3)"
+              font-size: 1.3vw
+              font-weight: 300
+              left: 16.1%
+              letter-spacing: "-0.05vw"
+              text-align: left
+              top: 17%
+              width: 30%
+            tap_action:
+              action: none
+            type: state-label
+
+            #########################    MENU BUTTONS    #########################
+
+          - action: none
+            image: /local/ui/sidebar/rooms_on.png
+            style:
+              border-radius: 5vw
+              box-shadow: "0px 0.2vw 0.8vw 0px rgba(0,0,0,0.1)"
+              left: 10.1%
+              top: 26%
+              width: 17.5078%
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-tablet/0
+            type: image

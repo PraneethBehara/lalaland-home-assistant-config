@@ -1,0 +1,246 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  javascript_version: latest
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+# light: !include light_template.yaml
+
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.0.100
+    - 172.30.33.0/24
+
+browser_mod:
+  devices:
+    00e6c56e0b4347f695cd778483ce3a56:
+      name: nest hub
+
+lovelace:
+  mode: yaml
+  resources:
+    - url: /hacsfiles/config-template-card/config-template-card.js
+      type: module
+    - url: /hacsfiles/lovelace-card-mod/card-mod.js
+      type: module
+    - url: /hacsfiles/lovelace-mushroom/mushroom.js
+      type: module
+    - url: /hacsfiles/button-card/button-card.js
+      type: module
+    - url: /hacsfiles/bar-card/bar-card.js
+      type: module
+    - url: /hacsfiles/circle-sensor-card/circle-sensor-card.js
+      type: module
+    - url: /hacsfiles/lovelace-layout-card/layout-card.js
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
+    - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
+      type: module
+    - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+      type: module
+    - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
+      type: module
+    - url: /hacsfiles/weather-card/weather-card.js
+      type: module
+    - url: /hacsfiles/light-entity-card/light-entity-card.js
+      type: module
+    - url: /hacsfiles/lovelace-hui-element/hui-element.js
+      type: module
+    - url: /hacsfiles/lovelace-xiaomi-vacuum-map-card/xiaomi-vacuum-map-card.js
+      type: module
+
+    # - url: /local/custom/js/forecast-home-rain-card.js?v=0.0.60
+    #   type: module
+    - url: /local/custom/js/light-slider-card-lajv.js
+      type: module
+
+  dashboards:
+    lovelace-tablet:
+      mode: yaml
+      filename: ui-floorplan-2.yaml
+      title: Tablet Floorplan
+      icon: "mdi:floor-plan"
+      show_in_sidebar: true
+
+sensor:
+  - platform: time_date
+    display_options:
+      - "time"
+      - "date"
+      - "date_time"
+      - "date_time_utc"
+      - "date_time_iso"
+      - "time_date"
+      - "time_utc"
+
+  #######################################################################################
+  ## Templates (Used for updating text in the UI and converting sensors to CSS values )
+  #######################################################################################
+
+  - platform: template
+    sensors:
+      forecast_outside_temperature:
+        unique_id: forecast_current_temperature
+        friendly_name: Outside temperature
+        unit_of_measurement: °F
+        device_class: temperature
+        value_template: "{{ state_attr('weather.forecast_home', 'temperature') }}"
+      forecast_outside_temperature_hourly: # testing to see if it gets more freq updates
+        unique_id: forecast_current_temperature_hourly
+        friendly_name: Outside temperature (hourly)
+        unit_of_measurement: °F
+        device_class: temperature
+        value_template: "{{ state_attr('weather.forecast_home_hourly', 'temperature') }}"
+      forecast_outside_humidity:
+        unique_id: forecast_current_humidity
+        unit_of_measurement: "%"
+        device_class: humidity
+        value_template: "{{ state_attr('weather.forecast_home', 'humidity') }}"
+      forecast_outside_pressure:
+        unique_id: forecast_current_pressure
+        friendly_name: Outside air pressure
+        unit_of_measurement: hPa
+        device_class: pressure
+        value_template: "{{ state_attr('weather.forecast_home', 'pressure') }}"
+      forecast_outside_wind_speed:
+        unique_id: forecast_current_wind_speed
+        friendly_name: Outside wind speed
+        unit_of_measurement: m/h
+        device_class: wind_speed
+        value_template: "{{ state_attr('weather.forecast_home', 'wind_speed') }}"
+      forecast_outside_wind_bearing:
+        unique_id: forecast_current_wind_bearing
+        friendly_name: Outside wind bearing
+        unit_of_measurement: "°"
+        icon_template: mdi:compass
+        # device_class: ???
+        value_template: "{{ state_attr('weather.forecast_home', 'wind_bearing') }}"
+
+      ## to get the current view of my tablet for UI automations
+      tablet_view:
+        value_template: "{{ states.sensor.tablet.attributes['path'] | default('/lovelace/0') }}"
+        friendly_name: Tablet View
+
+      ## Calculates daylight brightness out of 100%
+      sunlight_pct:
+        value_template: >-
+          {%- set elevation = state_attr('sun.sun','elevation') | float %}
+          {%- set cloud_coverage = states('sensor.dark_sky_cloud_coverage') | float %}
+          {%- set cloud_factor = (1 - (0.75 * ( cloud_coverage / 100) ** 3 )) %}
+          {%- set min_elevation = -6 %}
+          {%- set max_elevation = 90 %}
+          {%- set adjusted_elevation = elevation - min_elevation %}
+          {%- set adjusted_elevation = [adjusted_elevation,0] | max %}
+          {%- set adjusted_elevation = [adjusted_elevation,max_elevation - min_elevation] | min %}
+          {%- set adjusted_elevation = adjusted_elevation / (max_elevation - min_elevation) %}
+          {%- set adjusted_elevation = adjusted_elevation %}
+          {%- set adjusted_elevation = adjusted_elevation * 100 %}
+          {%- set brightness = adjusted_elevation * cloud_factor %}
+          {{ brightness | round }}
+        unit_of_measurement: "%"
+        device_class: "illuminance"
+
+      ## Daylight brightness converted to opacity for CSS
+      sunlight_opacity:
+        value_template: >-
+          {%- set sunpct = states('sensor.sunlight_pct') | float %}
+          {%- set opacity = sunpct / 100 | float %}
+          {{ opacity }}
+
+      ## Converts time and date into sentence for UI
+      day:
+        value_template: >
+          {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+          {{ days[now().weekday()] }}
+
+      month:
+        value_template: >
+          {% set months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+          {{ strptime(states('sensor.date'), '%Y-%m-%d').day }}
+          {{ months[now().month-1] }}
+
+      date_string:
+        friendly_name: "Full Date"
+        value_template: "{{ states('sensor.day') }}, {{ states('sensor.month') }} {{ now().year }}"
+
+      ## Vaccuum templates, for showing attributes as sensors, etc.
+
+      # vacuum_status:
+      #   friendly_name: "Vacuum - Status"
+      #   value_template: "{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.status }}"
+
+      # vacuum_cleaning_status:
+      #   friendly_name: "Vacuum - Cleaning Status"
+      #   value_template: "Cleaning {{ states('input_text.room_cleaning') }}"
+
+      # vacuum_battery:
+      #   friendly_name: "Vacuum - Battery"
+      #   value_template: "{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level }}"
+      #   device_class: battery
+      #   unit_of_measurement: "%"
+
+      # vacuum_fan:
+      #   friendly_name: "Vacuum - Fan Speed"
+      #   value_template: "{{ states.vacuum.roborock_q_revo.attributes.fan_speed }}"
+
+      # vacuum_battery_icon:
+      #   friendly_name: "Vacuum - Battery Icon"
+      #   icon_template: "{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_icon }}"
+      #   value_template: "{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_icon }}"
+
+      # vacuum_cleaning_time:
+      #   friendly_name: "Vacuum - Cleaning Time"
+      #   value_template: "{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaning_time }}"
+
+      # vacuum_cleaned_area:
+      #   friendly_name: "Vacuum - Cleaned Area"
+      #   value_template: "{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaned_area }}"
+
+#################################################################
+## Light Groups
+#################################################################
+
+light:
+  - platform: group
+    name: Backyard Lights
+    entities:
+      - light.back_yard_string_lights_1
+
+  - platform: group
+    name: Frontyard Lights
+    entities:
+      - light.frontyard_garage_light
+      - light.main_entrance_porch_light
+
+  - platform: group
+    name: Living Room Lights
+    entities:
+      - light.living_room_main_lights_front
+      - light.living_room_main_lights_rear
+
+  - platform: group 
+    name: Family Room Lights
+    entities: 
+      - light.family_room_main_lights
+
+  - platform: group
+    name: Upstairs Lights
+    entities:
+      - light.upstairs_bathroom_shower_lights_light
+      - light.upstairs_bathroom_vanity_lights_light
+      - light.upstairs_main_lights
+      - light.bedroom_1_bathroom_light_light
+  - platform: group 
+    name: Garage Lights
+    entities:
+      - light.laundry_room_light_light_2
+      - light.garage_main_lights

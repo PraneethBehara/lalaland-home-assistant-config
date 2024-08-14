@@ -1,0 +1,324 @@
+- id: '1697353200387'
+  alias: Frontyard Lights Automation
+  description: Turns ON/OFF the lights based on Sun's elevation angle
+  trigger:
+  - platform: numeric_state
+    entity_id: sun.sun
+    attribute: elevation
+    above: 1
+  - platform: numeric_state
+    entity_id:
+    - sun.sun
+    attribute: elevation
+    below: -2.5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sun.sun
+        attribute: elevation
+        above: 1
+      sequence:
+      - target:
+          entity_id: scene.frontyard_lights_off
+        metadata: {}
+        action: scene.turn_on
+    - conditions:
+      - condition: numeric_state
+        entity_id: sun.sun
+        attribute: elevation
+        below: -2.5
+      sequence:
+      - target:
+          entity_id: scene.frontyard_lights_on
+        metadata: {}
+        action: scene.turn_on
+  mode: single
+- id: '1697355939354'
+  alias: Garage Fridge Door Alert
+  description: Sends a phone notification if the door is left open for more than 5
+    mins
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_opening
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_pixel_7_pro
+    data:
+      message: Close Garage fridge door!
+      title: Door open for more than 5 mins
+  mode: single
+- id: '1700023961322'
+  alias: Thermostat Summer Schedule
+  description: 6:00AM-7:00AM
+  trigger:
+  - platform: time
+    at: '12:00:00'
+  - platform: time
+    at: '16:00:00'
+  - platform: time
+    at: '21:00:00'
+  - platform: time
+    at: 01:00:00
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        after: '12:00:00'
+        before: '16:00:00'
+        weekday:
+        - sun
+        - tue
+        - wed
+        - thu
+        - fri
+        - sat
+        - mon
+      sequence:
+      - service: climate.set_temperature
+        data:
+          temperature: 76.5
+          hvac_mode: cool
+        target:
+          entity_id: climate.thermostat
+    - conditions:
+      - condition: time
+        after: '21:00:00'
+        before: '23:59:59'
+        weekday:
+        - sat
+        - fri
+        - thu
+        - wed
+        - tue
+        - mon
+        - sun
+      sequence:
+      - service: climate.set_temperature
+        data:
+          temperature: 76.5
+          hvac_mode: cool
+        target:
+          entity_id: climate.thermostat
+    - conditions:
+      - condition: time
+        after: 00:00:00
+        before: 01:00:00
+        weekday:
+        - sat
+        - fri
+        - thu
+        - wed
+        - tue
+        - mon
+        - sun
+      sequence:
+      - service: climate.set_temperature
+        data:
+          temperature: 76
+          hvac_mode: cool
+        target:
+          entity_id: climate.thermostat
+    default:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.thermostat
+        hvac_mode: 'off'
+  mode: single
+- id: '1700284523246'
+  alias: Sensor Low battery notification
+  description: ''
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      threshold: 15
+      time: '18:00:00'
+      day: 0
+      exclude:
+        entity_id:
+        - sensor.pixel_6_pro_battery_level
+        - sensor.pixel_7_pro_battery_level
+        - sensor.roborock_q_revo_battery
+      actions:
+      - service: notify.mobile_app_pixel_7_pro
+        metadata: {}
+        data:
+          message: Battery less than 15% - {{sensors}}
+      - service: notify.mobile_app_pixel_6_pro
+        metadata: {}
+        data:
+          message: Battery less than 15% - {{sensors}}
+- id: '1700800093311'
+  alias: Upstairs Main Lights (Motion + Sun + Manual)
+  description: ''
+  use_blueprint:
+    path: custom/toggle_lights_with_motion_sun_manual_trigger.yaml
+    input:
+      light_target: light.upstairs_main_lights
+      motion_entity: binary_sensor.upstairs_landing_motion_sensor_motion
+      wait_time: 1
+      manual_trigger_wait_time: 180
+- id: '1702193952040'
+  alias: Indoor plants water check
+  description: Check if the indoor plants are watered
+  trigger:
+  - platform: time_pattern
+    hours: '7'
+    minutes: 0
+    seconds: 0
+  condition:
+  - condition: template
+    value_template: '{{ (as_timestamp(now()) - as_timestamp(states.binary_sensor.indoor_plant_water_sensor_moisture.last_changed))
+      > 604800 }}'
+  action:
+  - service: notify.mobile_app_pixel_7_pro
+    data:
+      message: Indoor plants have not been watered for over a week.
+      title: Water the indoor plants!
+  mode: single
+- id: '1704678543562'
+  alias: Upstairs Bathroom Vanity Lights Automation (Sun + Motion + Manual)
+  description: 'Manual = 5mins
+
+    Auto = Occupied + 5s'
+  use_blueprint:
+    path: custom/toggle_lights_with_motion_sun_manual_trigger.yaml
+    input:
+      light_target: light.upstairs_bathroom_vanity_lights_light
+      motion_entity: binary_sensor.upstairs_bathroom_vanity_motion_sensor_motion_2
+      wait_time: 60
+      manual_trigger_wait_time: 300
+- id: '1704679294336'
+  alias: Upstairs Bathroom Shower Lights Automation (Sun + Motion + Manual)
+  description: 'Manual = 5mins
+
+    Auto = Occupied + 5s'
+  use_blueprint:
+    path: custom/toggle_lights_with_motion_sun_manual_trigger.yaml
+    input:
+      light_target: light.upstairs_bathroom_shower_lights_light
+      motion_entity: binary_sensor.upstairs_bathroom_shower_motion_sensor_motion
+      wait_time: 5
+      manual_trigger_wait_time: 300
+- id: '1705883104830'
+  alias: Upstairs Master Bedroom Bathroom Lights Automation (Occupancy + Sun + Manual)
+  description: Occupancy, Manual = 300s
+  use_blueprint:
+    path: custom/toggle_lights_with_occupancy_sun_manual_trigger.yaml
+    input:
+      light_target: light.upstairs_mb_bathroom_light
+      occupancy_entity: binary_sensor.upstairs_master_bathroom_motion_sensor_occupancy_2
+      manual_trigger_wait_time: 300
+- id: '1705889175334'
+  alias: Upstairs Bathoom Shower Lights Automation (Occupancy + Sun + Manual)
+  description: Occupancy, Manual = 300s
+  use_blueprint:
+    path: custom/toggle_lights_with_occupancy_sun_manual_trigger.yaml
+    input:
+      light_target: light.upstairs_bathroom_shower_lights_light
+      occupancy_entity: binary_sensor.upstairs_bathroom_shower_motion_sensor_occupancy
+      manual_trigger_wait_time: 300
+      sun_elevation: 90
+- id: '1708757963902'
+  alias: Upstairs Bathroom Shower Lights Timer
+  description: 30mins on manual trigger
+  use_blueprint:
+    path: custom/light_timer.yaml
+    input:
+      light: light.upstairs_bathroom_shower_lights_light
+      time:
+        hours: 0
+        minutes: 20
+        seconds: 0
+- id: '1711818241890'
+  alias: Laundry Room Light Timer
+  description: 30mins on manual trigger
+  use_blueprint:
+    path: custom/light_timer.yaml
+    input:
+      light: light.laundry_room_light_light_2
+      time:
+        hours: 0
+        minutes: 5
+        seconds: 0
+- id: '1711818273889'
+  alias: 'Garage Main Lights Timer '
+  description: 5mins on manual trigger
+  use_blueprint:
+    path: custom/light_timer.yaml
+    input:
+      light: light.garage_main_lights
+      time:
+        hours: 0
+        minutes: 5
+        seconds: 0
+- id: '1713082504749'
+  alias: Main door left unlocked notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - lock.aqara_smart_lock_u100
+    to: unlocked
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_pixel_7_pro
+    metadata: {}
+    data:
+      message: Main door is unlocked for more than 5 mins!
+  - service: notify.mobile_app_pixel_6_pro
+    metadata: {}
+    data:
+      message: Main door is unlocked for more than 5 mins!
+  mode: single
+- id: '1714264842613'
+  alias: 'Empty clean water tank '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.roborock_q_revo_water_shortage
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.mobile_app_pixel_7_pro
+    data:
+      message: 'Clean water tank empty '
+  - service: notify.mobile_app_pixel_6_pro
+    metadata: {}
+    data:
+      message: 'Clean water tank empty '
+  mode: single
+- id: '1714916143067'
+  alias: 'Living Room Lights Timer '
+  description: ''
+  use_blueprint:
+    path: custom/light_timer.yaml
+    input:
+      light: light.living_room_lights
+      time:
+        hours: 3
+        minutes: 0
+        seconds: 0
+- id: '1723607668418'
+  alias: Upstairs bathroom Shower Light Timer
+  description: ''
+  use_blueprint:
+    path: custom/light_timer.yaml
+    input:
+      light: light.upstairs_bathroom_shower_lights_light
+      time:
+        hours: 0
+        minutes: 30
+        seconds: 0

@@ -1,0 +1,9 @@
+roborock_refill_water:
+  alias: Roborock refill water
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: c6f1286749572d330677b61293d4e764
+      title: Refill clean water tank
+      message: Empty clean water tank
+  icon: mdi:alert-box-outline

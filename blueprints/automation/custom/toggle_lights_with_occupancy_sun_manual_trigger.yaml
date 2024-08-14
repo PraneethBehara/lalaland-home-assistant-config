@@ -1,0 +1,126 @@
+blueprint:
+  name: Toggle lights based on occupancy, sun elevation and manual trigger
+  description: Toggle a light based on motion sensing and the sun elevation below horizon. Also turn off the lights if manually switched on after a given time
+  domain: automation
+  author: Praneeth Behara
+  input:
+    light_target:
+      name: Light
+      selector:
+        entity:
+          filter:
+            domain:
+              - light
+    rgb_color:
+      name: Light Color
+      selector:
+        color_rgb:
+      default: [255, 255, 255]
+    occupancy_entity:
+      name: Motion Sensor
+      selector:
+        entity:
+          filter:
+            domain:
+              - binary_sensor
+            device_class: occupancy
+    sun_elevation:
+      name: Sun Elevation below horizon
+      description: The light will turn on if sun's elevation is below this value
+      selector:
+        number:
+          min: -90
+          max: 90
+          step: 1
+          mode: slider
+          unit_of_measurement: "degrees"
+      default: '-1'
+    wait_time:
+      name: Wait Time
+      description: Time to leave the light ON after no motion is detected
+      selector:
+        number:
+          mode: slider
+          min: 0
+          max: 3600
+          unit_of_measurement: seconds
+      default: 0
+    manual_trigger_wait_time:
+      name: Manual Trigger Wait Time
+      description: Time to leave the light ON after being manually turned on and no motion is detected
+      selector:
+        number:
+          mode: slider
+          min: 30
+          max: 3600
+          unit_of_measurement: seconds
+      default: 30
+
+trigger:
+  - platform: state
+    entity_id: !input occupancy_entity
+    from: "off"
+    to: "on"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0.25
+    id: Detected
+  - platform: state
+    entity_id: !input occupancy_entity
+    from: "on"
+    to: "off"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: !input wait_time
+    id: ClearTimeout
+  - platform: state
+    entity_id: !input light_target
+    from: "off"
+    to: "on"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 1.5
+    id: ManualTrigger
+
+condition: []
+
+action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: Detected
+      - condition: numeric_state
+        entity_id: sun.sun
+        attribute: elevation
+        below: !input sun_elevation
+      sequence:
+        - service: light.turn_on
+          data:
+            rgb_color: !input rgb_color
+          target:
+            entity_id: !input light_target
+    - conditions:
+      - condition: trigger
+        id: ClearTimeout
+      sequence:
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: !input light_target
+    - conditions:
+      - condition: trigger
+        id: ManualTrigger
+      - condition: state
+        entity_id: !input occupancy_entity
+        state: 'off'
+      sequence:
+        - delay: !input manual_trigger_wait_time
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: !input light_target
+
+mode: restart

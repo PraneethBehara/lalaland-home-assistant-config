@@ -1,0 +1,128 @@
+views:
+  - title: First Floor
+    icon: mdi:floor-plan
+    type: panel
+    badges: []
+    cards:
+      - type: picture-elements
+        image: local/images/3d_floorplan/home_dark.png
+        elements:
+          - type: image
+            entity: light.master_bedroom_main_lights
+            style:
+              left: 50.1%
+              top: 50.1%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/home_mbr_lights_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: image
+            entity: light.family_room_main_lights
+            style:
+              left: 50.1%
+              top: 50.1%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/home_fr_lights_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: image
+            entity: light.living_room_main_lights_front
+            style:
+              left: 50.1%
+              top: 50.1%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/home_lr_front_lights_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: image
+            entity: light.living_room_main_lights_rear
+            style:
+              left: 49.9%
+              top: 50.1%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/living_room_rear_lights_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: image
+            entity: light.dining_room_main_lights
+            style:
+              left: 50.1%
+              top: 50.1%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/home_dr_lights_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: image
+            entity: light.main_entrance_porch_light
+            style:
+              left: 50%
+              top: 50%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/home_front_porch_light_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: image
+            entity: light.frontyard_garage_light
+            style:
+              left: 50%
+              top: 50%
+              width: 100%
+            state_image:
+              "on": local/images/3d_floorplan/home_frontyard_garage_lights_on.png
+              "off": local/images/3d_floorplan/home_transparent.png
+          - type: state-icon
+            entity: light.living_room_main_lights_rear
+            tap_action:
+              action: toggle
+            style:
+              left: 23%
+              top: 68%
+              "--mdc-icon-size": 15px
+              "--paper-item-icon-color": white
+          - type: state-icon
+            entity: light.living_room_main_lights_front
+            tap_action:
+              action: toggle
+            style:
+              left: 22.5%
+              top: 90%
+              "--mdc-icon-size": 15px
+              "--paper-item-icon-color": white
+          - type: state-icon
+            entity: light.master_bedroom_main_lights
+            tap_action:
+              action: toggle
+            style:
+              left: 32.5%
+              top: 20%
+              "--mdc-icon-size": 15px
+              "--paper-item-icon-color": white
+          - type: state-icon
+            entity: light.family_room_main_lights
+            tap_action:
+              action: toggle
+            style:
+              left: 35.5%
+              top: 43%
+              "--mdc-icon-size": 15px
+              "--paper-item-icon-color": white
+          - type: state-icon
+            entity: light.dining_room_main_lights
+            tap_action:
+              action: toggle
+            style:
+              left: 37%
+              top: 90%
+              "--mdc-icon-size": 15px
+              "--paper-item-icon-color": white
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_motion
+                state: "on"
+            elements:
+              - type: state-icon
+                entity: binary_sensor.lumi_lumi_sensor_motion_aq2_motion
+                icon: mdi:run-fast
+                style:
+                  left: 20%
+                  top: 75%

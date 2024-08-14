@@ -1,0 +1,28 @@
+blueprint:
+  name: Turn off Light after Time has elapsed
+  description: Given a light entity, watch for it turning on, and then turn it off after a certain period of time.
+  domain: automation
+  input:
+    light:
+      name: Light
+      description: Select the light to monitor and control
+      selector:
+        entity:
+          domain: light
+    time:
+      name: Duration
+      description: The duration to leave the light on for
+      selector:
+        duration:
+
+trigger:                                                   
+  - platform: state
+    entity_id: !input light
+    to: 'on'
+    for: !input time
+condition: []
+action:
+  - service: light.turn_off
+    data: {}
+    entity_id: !input light
+mode: single
