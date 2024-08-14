@@ -1,0 +1,11 @@
+*.log*
+*.log
+*.xml
+*.db*
+*.db
+*.pickle
+*.sqlite
+.storage/
+known_devices.yaml
+*lutron*
+secrets.yaml
