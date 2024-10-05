@@ -16,7 +16,7 @@ http:
   ssl_key: /ssl/privkey.pem
   use_x_forwarded_for: true
   trusted_proxies:
-    - 192.168.0.100
+    - 192.168.1.100
     - 172.30.33.0/24
 
 browser_mod:
@@ -218,8 +218,7 @@ light:
   - platform: group
     name: Frontyard Lights
     entities:
-      - light.frontyard_garage_light
-      - light.main_entrance_porch_light
+      - light.frontyard_lights_switch
 
   - platform: group
     name: Living Room Lights
@@ -227,20 +226,20 @@ light:
       - light.living_room_main_lights_front
       - light.living_room_main_lights_rear
 
-  - platform: group 
+  - platform: group
     name: Family Room Lights
-    entities: 
+    entities:
       - light.family_room_main_lights
 
   - platform: group
     name: Upstairs Lights
     entities:
-      - light.upstairs_bathroom_shower_lights_light
-      - light.upstairs_bathroom_vanity_lights_light
-      - light.upstairs_main_lights
+      - light.upstairs_bathroom_shower_lights
+      - light.upstairs_bathroom_vanity_lights
+      - light.upstairs_hallway_lights
       - light.bedroom_1_bathroom_light_light
-  - platform: group 
+  - platform: group
     name: Garage Lights
     entities:
-      - light.laundry_room_light_light_2
+      - light.laundry_room_light
       - light.garage_main_lights

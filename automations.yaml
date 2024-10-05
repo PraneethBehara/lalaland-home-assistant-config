@@ -146,15 +146,13 @@
         - sensor.pixel_6_pro_battery_level
         - sensor.pixel_7_pro_battery_level
         - sensor.roborock_q_revo_battery
+        - sensor.galaxy_watch4_yh2y_battery_level
+        - sensor.s7p_tab_battery_level
       actions:
-      - service: notify.mobile_app_pixel_7_pro
-        metadata: {}
+      - metadata: {}
         data:
           message: Battery less than 15% - {{sensors}}
-      - service: notify.mobile_app_pixel_6_pro
-        metadata: {}
-        data:
-          message: Battery less than 15% - {{sensors}}
+        action: notify.mobile_app_pixel_7_pro
 - id: '1700800093311'
   alias: Upstairs Main Lights (Motion + Sun + Manual)
   description: ''
@@ -243,7 +241,7 @@
   use_blueprint:
     path: custom/light_timer.yaml
     input:
-      light: light.laundry_room_light_light_2
+      light: light.laundry_room_light
       time:
         hours: 0
         minutes: 5
@@ -265,7 +263,7 @@
   trigger:
   - platform: state
     entity_id:
-    - lock.aqara_smart_lock_u100
+    - lock.main_door_lock
     to: unlocked
     for:
       hours: 0
@@ -321,4 +319,15 @@
       time:
         hours: 0
         minutes: 30
+        seconds: 0
+- id: '1725255730472'
+  alias: Upstairs Master Bathroom Lights
+  description: '25mins timeout '
+  use_blueprint:
+    path: custom/light_timer.yaml
+    input:
+      light: light.upstairs_mb_bathroom_light
+      time:
+        hours: 0
+        minutes: 25
         seconds: 0
