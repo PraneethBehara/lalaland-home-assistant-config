@@ -9,3 +9,10 @@
 known_devices.yaml
 *lutron*
 secrets.yaml
+
+.HA_VERSION
+custom_components/*
+www/community
+themes/
+zigbee2mqtt/
+
